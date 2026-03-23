@@ -1087,51 +1087,30 @@ body {
 }
 
 /* ────────────────────────────────────────────────────────────────────────
-   CODE PREVIEW — RIGHT SIDE PANEL
+   HUD — INLINE CODE PREVIEW
    ──────────────────────────────────────────────────────────────────────── */
-.ruth-preview {
-  width: 45%;
-  max-width: 640px;
-  min-width: 320px;
-  background: var(--surface-1);
-  border-left: 1px solid var(--border-light);
-  display: flex;
-  flex-direction: column;
-  flex-shrink: 0;
-  animation: slideInRight 0.2s ease-out;
+.ruth-hud--code-open {
+  width: 420px;
 }
 
-@keyframes slideInRight {
-  from { transform: translateX(100%); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
+.ruth-hud-code {
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--bg-color);
 }
 
-.ruth-preview-header {
+.ruth-hud-code-toolbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 16px;
-  border-bottom: 1px solid var(--border-light);
+  padding: 6px 10px;
   background: var(--surface-2);
-  flex-shrink: 0;
+  border-bottom: 1px solid var(--border-light);
 }
 
-.ruth-preview-file {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 0;
-}
-
-.ruth-preview-filename {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text-main);
-  font-family: 'Geist Mono', monospace;
-}
-
-.ruth-preview-path {
-  font-size: 11px;
+.ruth-hud-code-label {
+  font-size: 10px;
   color: var(--text-muted);
   font-family: 'Geist Mono', monospace;
   overflow: hidden;
@@ -1139,82 +1118,73 @@ body {
   white-space: nowrap;
 }
 
-.ruth-preview-actions {
-  display: flex;
-  gap: 4px;
-  flex-shrink: 0;
-}
-
-.ruth-preview-btn {
+.ruth-hud-code-copy {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 24px;
+  height: 24px;
   background: transparent;
   border: 1px solid var(--border-light);
-  border-radius: 6px;
+  border-radius: 4px;
   color: var(--text-muted);
   cursor: pointer;
-  transition: background 0.15s, color 0.15s;
+  flex-shrink: 0;
 }
 
-.ruth-preview-btn:hover {
-  background: var(--surface-3, rgba(255,255,255,0.08));
+.ruth-hud-code-copy:hover {
+  background: var(--surface-3);
   color: var(--text-main);
 }
 
-.ruth-preview-code {
+.ruth-hud-code-scroll {
+  max-height: 350px;
   overflow: auto;
-  flex: 1;
 }
 
-.ruth-preview-code pre {
+.ruth-hud-code-scroll pre {
   margin: 0;
   padding: 0;
   font-family: 'Geist Mono', monospace;
-  font-size: 13px;
-  line-height: 1.6;
+  font-size: 11px;
+  line-height: 1.55;
 }
 
-.ruth-preview-code code {
+.ruth-hud-code-scroll code {
   display: block;
 }
 
-.ruth-preview-line {
+.ruth-hud-code-line {
   display: flex;
-  padding: 0 16px 0 0;
+  padding: 0 8px 0 0;
 }
 
-.ruth-preview-line:hover {
+.ruth-hud-code-line:hover {
   background: rgba(255, 255, 255, 0.03);
 }
 
-.ruth-preview-linenum {
+.ruth-hud-code-num {
   display: inline-block;
-  width: 52px;
-  padding: 0 12px;
+  width: 36px;
+  padding: 0 6px;
   text-align: right;
   color: var(--text-muted);
-  opacity: 0.4;
+  opacity: 0.35;
   user-select: none;
   flex-shrink: 0;
-  font-size: 12px;
+  font-size: 10px;
 }
 
-.ruth-preview-linetext {
+.ruth-hud-code-text {
   white-space: pre;
   color: var(--text-main);
   flex: 1;
   min-width: 0;
 }
 
-.ruth-preview-loading {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 60px 20px;
+.ruth-hud-code-loading {
+  padding: 24px;
+  text-align: center;
   color: var(--text-muted);
-  font-size: 13px;
+  font-size: 12px;
 }

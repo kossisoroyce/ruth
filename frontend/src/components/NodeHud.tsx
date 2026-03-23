@@ -1,28 +1,64 @@
+import { useState, useEffect, useCallback } from 'react';
 import { useGraphStore } from '../store/useGraphStore';
 import type { ModuleNodeData, ClassNodeData, FunctionNodeData } from '../types';
 import { ROLE_CONFIG } from '../utils/landmarks';
 import {
-  X, ShieldAlert, Cpu, Layers, Link, GitMerge, FileCode, CheckCircle, Flame,
-  ArrowDownRight, ArrowUpRight, MapPin, Eye,
+  X, ShieldAlert, Cpu, Layers, GitMerge, FileCode, CheckCircle, Flame,
+  ArrowDownRight, ArrowUpRight, MapPin, Eye, Copy, Check, ChevronDown,
 } from 'lucide-react';
 
 export function NodeHud() {
   const selectedId = useGraphStore((s) => s.selectedNodeId);
   const nodes = useGraphStore((s) => s.nodes);
   const selectNode = useGraphStore((s) => s.selectNode);
-  const openPreview = useGraphStore((s) => s.openPreview);
 
-  if (!selectedId) return null;
+  const [codeOpen, setCodeOpen] = useState(false);
+  const [code, setCode] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [copied, setCopied] = useState(false);
 
-  const node = nodes.find((n) => n.id === selectedId);
+  // Reset code panel when selecting a different node
+  useEffect(() => {
+    setCodeOpen(false);
+    setCode(null);
+  }, [selectedId]);
+
+  const node = selectedId ? nodes.find((n) => n.id === selectedId) : null;
+
+  const loadCode = useCallback(async (filePath: string) => {
+    if (codeOpen) {
+      setCodeOpen(false);
+      return;
+    }
+    setCodeOpen(true);
+    setLoading(true);
+    try {
+      const res = await fetch(`/api/file?path=${encodeURIComponent(filePath)}`);
+      if (!res.ok) throw new Error();
+      setCode(await res.text());
+    } catch {
+      setCode('// Could not load file');
+    }
+    setLoading(false);
+  }, [codeOpen]);
+
+  const handleCopy = useCallback(() => {
+    if (code) {
+      navigator.clipboard.writeText(code);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  }, [code]);
+
   if (!node) return null;
 
   const data = node.data;
   const ann = data.annotations;
   const roles = data.roles || [];
+  const lines = code?.split('\n') ?? [];
 
   return (
-    <div className="ruth-hud">
+    <div className={`ruth-hud ${codeOpen ? 'ruth-hud--code-open' : ''}`}>
       <div className="ruth-hud-header">
         <div>
           <span className="ruth-hud-kind">{data.kind.toUpperCase()}</span>
@@ -35,18 +71,43 @@ export function NodeHud() {
 
       <div className="ruth-hud-body">
         <div className="ruth-hud-path">
-          <Link size={14} className="ruth-hud-icon" />
+          <FileCode size={14} className="ruth-hud-icon" />
           {data.filePath}
         </div>
 
         <button
           type="button"
           className="ruth-hud-preview-btn"
-          onClick={(e) => { e.preventDefault(); e.stopPropagation(); openPreview(selectedId, data.filePath); }}
+          onClick={() => loadCode(data.filePath)}
         >
           <Eye size={14} />
-          View Code
+          {codeOpen ? 'Hide Code' : 'View Code'}
+          <ChevronDown size={14} style={{ marginLeft: 'auto', transform: codeOpen ? 'rotate(180deg)' : undefined, transition: 'transform 0.2s' }} />
         </button>
+
+        {/* Inline code preview */}
+        {codeOpen && (
+          <div className="ruth-hud-code">
+            <div className="ruth-hud-code-toolbar">
+              <span className="ruth-hud-code-label">{data.filePath}</span>
+              <button type="button" className="ruth-hud-code-copy" onClick={handleCopy} title="Copy code">
+                {copied ? <Check size={12} /> : <Copy size={12} />}
+              </button>
+            </div>
+            <div className="ruth-hud-code-scroll">
+              {loading ? (
+                <div className="ruth-hud-code-loading">Loading...</div>
+              ) : (
+                <pre><code>{lines.map((line, i) => (
+                  <div key={i} className="ruth-hud-code-line">
+                    <span className="ruth-hud-code-num">{i + 1}</span>
+                    <span className="ruth-hud-code-text">{line}</span>
+                  </div>
+                ))}</code></pre>
+              )}
+            </div>
+          </div>
+        )}
 
         {/* Landmark roles */}
         {roles.length > 0 && (
@@ -70,7 +131,7 @@ export function NodeHud() {
           {data.kind === 'module' && (
             <>
               <div className="ruth-hud-stat"><GitMerge size={14}/><span>{(data as ModuleNodeData).exportCount} Exports</span></div>
-              <div className="ruth-hud-stat"><Link size={14}/><span>{(data as ModuleNodeData).importCount} Imports</span></div>
+              <div className="ruth-hud-stat"><FileCode size={14}/><span>{(data as ModuleNodeData).importCount} Imports</span></div>
               <div className="ruth-hud-stat"><FileCode size={14}/><span>{(data as ModuleNodeData).lineCount} Lines</span></div>
             </>
           )}
@@ -90,7 +151,7 @@ export function NodeHud() {
           )}
         </div>
 
-        {/* Connectivity (Google Maps-like traffic info) */}
+        {/* Connectivity */}
         {(data.inDegree != null || data.outDegree != null) && (
           <div className="ruth-hud-connectivity">
             <h4 className="ruth-hud-subtitle">CONNECTIVITY</h4>
