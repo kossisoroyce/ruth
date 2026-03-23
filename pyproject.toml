@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "ruth-code"
-version = "0.1.5"
+version = "0.1.6"
 description = "Interactive codebase topology visualizer — Google Maps for your repo"
 readme = "README.md"
 license = "MIT"

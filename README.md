@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="frontend/public/logo.svg" width="80" alt="Ruth" />
-</p>
-
 <h1 align="center">Ruth</h1>
 
 <p align="center">
@@ -14,6 +10,10 @@
   <a href="https://pypi.org/project/ruth-code/"><img src="https://img.shields.io/pypi/v/ruth-code?color=%232dd4bf&label=PyPI" alt="PyPI" /></a>
   <a href="https://pypi.org/project/ruth-code/"><img src="https://img.shields.io/pypi/pyversions/ruth-code?color=%232dd4bf" alt="Python" /></a>
   <a href="https://github.com/kossisoroyce/ruth/blob/main/LICENSE"><img src="https://img.shields.io/github/license/kossisoroyce/ruth?color=%232dd4bf" alt="License" /></a>
+</p>
+
+<p align="center">
+  <img src=".github/demo.png" alt="Ruth — codebase topology visualizer" width="100%" />
 </p>
 
 ---
