@@ -1,5 +1,5 @@
 import { useGraphStore } from '../store/useGraphStore';
-import { X, Copy, Check } from 'lucide-react';
+import { Copy, Check, PanelRightClose } from 'lucide-react';
 import { useState, useCallback } from 'react';
 
 export function CodePreview() {
@@ -26,42 +26,40 @@ export function CodePreview() {
   }, [previewCode]);
 
   return (
-    <div className="ruth-preview-overlay" onClick={closePreview}>
-      <div className="ruth-preview" onClick={(e) => e.stopPropagation()}>
-        <div className="ruth-preview-header">
-          <div className="ruth-preview-file">
-            <span className="ruth-preview-filename">{node.data.label}</span>
-            <span className="ruth-preview-path">{node.data.filePath}</span>
-          </div>
-          <div className="ruth-preview-actions">
-            <button className="ruth-preview-btn" onClick={handleCopy} title="Copy code">
-              {copied ? <Check size={14} /> : <Copy size={14} />}
-            </button>
-            <button className="ruth-preview-btn" onClick={closePreview} title="Close">
-              <X size={16} />
-            </button>
-          </div>
+    <div className="ruth-preview">
+      <div className="ruth-preview-header">
+        <div className="ruth-preview-file">
+          <span className="ruth-preview-filename">{node.data.label}</span>
+          <span className="ruth-preview-path">{node.data.filePath}</span>
         </div>
+        <div className="ruth-preview-actions">
+          <button className="ruth-preview-btn" onClick={handleCopy} title="Copy code">
+            {copied ? <Check size={14} /> : <Copy size={14} />}
+          </button>
+          <button className="ruth-preview-btn" onClick={closePreview} title="Close panel">
+            <PanelRightClose size={16} />
+          </button>
+        </div>
+      </div>
 
-        <div className="ruth-preview-code">
-          {previewLoading ? (
-            <div className="ruth-preview-loading">
-              <div className="ruth-canvas__empty-spinner" />
-              <span>Loading...</span>
-            </div>
-          ) : (
-            <pre>
-              <code>
-                {lines.map((line, i) => (
-                  <div key={i} className="ruth-preview-line">
-                    <span className="ruth-preview-linenum">{i + 1}</span>
-                    <span className="ruth-preview-linetext">{line}</span>
-                  </div>
-                ))}
-              </code>
-            </pre>
-          )}
-        </div>
+      <div className="ruth-preview-code">
+        {previewLoading ? (
+          <div className="ruth-preview-loading">
+            <div className="ruth-canvas__empty-spinner" />
+            <span>Loading...</span>
+          </div>
+        ) : (
+          <pre>
+            <code>
+              {lines.map((line, i) => (
+                <div key={i} className="ruth-preview-line">
+                  <span className="ruth-preview-linenum">{i + 1}</span>
+                  <span className="ruth-preview-linetext">{line}</span>
+                </div>
+              ))}
+            </code>
+          </pre>
+        )}
       </div>
     </div>
   );

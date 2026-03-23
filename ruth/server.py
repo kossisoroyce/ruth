@@ -80,6 +80,7 @@ def create_app(project_path: str = ".") -> FastAPI:
 
     # Cache the graph to avoid re-parsing on every request
     _graph_cache: dict[str, Any] = {}
+    _watcher_task: dict[str, asyncio.Task[None]] = {}
 
     def get_graph(force_refresh: bool = False) -> dict[str, Any]:
         if force_refresh or not _graph_cache:
@@ -87,6 +88,54 @@ def create_app(project_path: str = ".") -> FastAPI:
             _graph_cache.clear()
             _graph_cache.update(result)
         return _graph_cache
+
+    # ── File watcher — push graph updates on file changes ──
+    _SOURCE_EXTENSIONS = {
+        ".py", ".ts", ".tsx", ".js", ".jsx", ".rs", ".go",
+        ".java", ".rb", ".c", ".cpp", ".h", ".hpp",
+    }
+
+    async def _watch_files():
+        """Watch the project directory for source file changes and broadcast updates."""
+        try:
+            from watchfiles import awatch, Change
+        except ImportError:
+            return  # watchfiles not installed, skip
+
+        try:
+            async for changes in awatch(project_root, recursive=True):
+                # Filter to source files only
+                source_changes = [
+                    (change, path) for change, path in changes
+                    if Path(path).suffix in _SOURCE_EXTENSIONS
+                    and not any(part.startswith('.') for part in Path(path).parts)
+                    and 'node_modules' not in path
+                    and '__pycache__' not in path
+                ]
+                if not source_changes:
+                    continue
+
+                # Rebuild graph and broadcast
+                try:
+                    graph = get_graph(force_refresh=True)
+                    await manager.broadcast({
+                        "type": "full_graph",
+                        "payload": graph,
+                    })
+                except Exception:
+                    pass  # Don't crash the watcher on parse errors
+        except Exception:
+            pass  # Watcher failed, server continues without it
+
+    @app.on_event("startup")
+    async def start_watcher():
+        _watcher_task["task"] = asyncio.create_task(_watch_files())
+
+    @app.on_event("shutdown")
+    async def stop_watcher():
+        task = _watcher_task.get("task")
+        if task:
+            task.cancel()
 
     @app.websocket("/ws")
     async def websocket_endpoint(websocket: WebSocket):

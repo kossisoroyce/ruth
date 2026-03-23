@@ -51,7 +51,7 @@ interface GraphState {
   toggleTraceMode: () => void;
   setTraceNode: (id: string) => void;
   clearTrace: () => void;
-  openPreview: (nodeId: string, filePath: string) => void;
+  openPreview: (nodeId: string, filePath: string) => Promise<void>;
   closePreview: () => void;
 }
 

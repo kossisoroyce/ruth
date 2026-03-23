@@ -40,8 +40,9 @@ export function NodeHud() {
         </div>
 
         <button
+          type="button"
           className="ruth-hud-preview-btn"
-          onClick={() => openPreview(selectedId, data.filePath)}
+          onClick={(e) => { e.preventDefault(); e.stopPropagation(); openPreview(selectedId, data.filePath); }}
         >
           <Eye size={14} />
           View Code

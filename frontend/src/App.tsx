@@ -16,9 +16,9 @@ function AppInner() {
       <div className="ruth-body">
         <GraphCanvas />
         <NodeHud />
+        <CodePreview />
       </div>
       <CommandPalette />
-      <CodePreview />
     </div>
   );
 }
