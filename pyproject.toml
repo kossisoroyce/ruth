@@ -1,0 +1,66 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ruth-code"
+version = "0.1.0"
+description = "Interactive codebase topology visualizer — Google Maps for your repo"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [
+    { name = "Electric Sheep Africa" },
+]
+keywords = [
+    "codebase", "visualization", "dependency-graph", "code-quality",
+    "developer-tools", "code-analysis", "topology", "architecture",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Quality Assurance",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Environment :: Console",
+    "Environment :: Web Environment",
+    "Framework :: FastAPI",
+]
+dependencies = [
+    "fastapi>=0.110.0",
+    "uvicorn[standard]>=0.27.0",
+    "websockets>=12.0",
+    "click>=8.1.0",
+    "tree-sitter>=0.21.0",
+    "rich>=13.0",
+    "watchfiles>=0.21.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/kossisoroyce/ruth"
+Repository = "https://github.com/kossisoroyce/ruth"
+Issues = "https://github.com/kossisoroyce/ruth/issues"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.3.0",
+]
+
+[project.scripts]
+ruth = "ruth.cli:cli"
+
+[tool.hatch.build.targets.wheel]
+packages = ["ruth"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"frontend/dist" = "frontend/dist"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"

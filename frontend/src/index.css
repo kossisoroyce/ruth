@@ -1,0 +1,1062 @@
+:root {
+  /* Monochrome Minimalist Base */
+  --bg-color: #09090b; /* Zinc 950 */
+  --bg-dots: #27272a; /* Zinc 800 */
+  
+  --surface-1: #18181b; /* Zinc 900 */
+  --surface-2: #27272a; /* Zinc 800 */
+  --surface-3: #3f3f46; /* Zinc 700 */
+
+  --text-main: #f4f4f5; /* Zinc 100 */
+  --text-muted: #a1a1aa; /* Zinc 400 */
+
+  --border-light: #27272a;
+  --border-focus: #52525b; /* Zinc 600 */
+
+  --accent-primary: #ffffff;
+  
+  /* Overlays - Muted but readable colors */
+  --color-flame: #ef4444; /* Not entirely grayscale for alerts, but deep */
+  --color-alert: #f59e0b;
+  --color-safe: #10b981;
+
+  --edge-import: #3f3f46;
+  --edge-call: #71717a;
+
+  /* Accent colors for minimap & edge selection */
+  --accent-blue: #60a5fa;
+  --accent-purple: #a78bfa;
+  --accent-green: #34d399;
+  --accent-amber: #fbbf24;
+
+  /* Node overlay defaults */
+  --node-default: var(--surface-3);
+  --node-uncovered: #52525b;
+
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+.ruth-app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  background: var(--bg-color);
+}
+
+.ruth-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ────────────────────────────────────────────────────────────────────────
+   TOPBAR
+   ──────────────────────────────────────────────────────────────────────── */
+.ruth-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 52px;
+  padding: 0 20px;
+  background: var(--bg-color);
+  border-bottom: 1px solid var(--border-light);
+  font-size: 13px;
+  z-index: 10;
+}
+
+.ruth-topbar__left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.ruth-topbar__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ruth-topbar__logo-img {
+  height: 28px;
+  width: auto;
+  display: block;
+}
+
+.ruth-topbar__brand-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: -0.3px;
+}
+
+.ruth-topbar__search-clear {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  padding: 0 2px;
+  display: flex;
+  align-items: center;
+}
+
+.ruth-topbar__search-clear:hover {
+  color: var(--text-main);
+}
+
+.ruth-topbar__project {
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ruth-topbar__badge {
+  background: var(--surface-2);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-family: 'Geist Mono', monospace;
+  border: 1px solid var(--border-light);
+}
+
+.ruth-topbar__center {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.ruth-topbar__stats {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.ruth-topbar__stat {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.ruth-topbar__stat-value {
+  font-size: 14px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-main);
+  font-family: 'Geist Mono', 'SF Mono', monospace;
+}
+
+.ruth-topbar__stat-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.ruth-topbar__search {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--surface-1);
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  padding: 0 10px;
+  height: 32px;
+  transition: border-color 0.2s;
+}
+
+.ruth-topbar__search:focus-within {
+  border-color: var(--border-focus);
+}
+
+.ruth-topbar__search-icon {
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.ruth-topbar__search-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text-main);
+  font-size: 12px;
+  width: 160px;
+  font-family: inherit;
+}
+
+.ruth-topbar__search-input::placeholder {
+  color: var(--text-muted);
+}
+
+.ruth-topbar__search-kbd {
+  font-size: 10px;
+  color: var(--text-muted);
+  background: var(--surface-2);
+  padding: 1px 4px;
+  border-radius: 3px;
+  border: 1px solid var(--border-light);
+  font-family: 'Geist Mono', 'SF Mono', monospace;
+}
+
+.ruth-topbar__connection {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.ruth-topbar__connection-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-flame);
+  transition: background 0.3s;
+}
+
+.ruth-topbar__connection-dot--connected {
+  background: var(--color-safe);
+}
+
+.ruth-topbar__connection-dot--connecting {
+  background: var(--color-alert);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.ruth-topbar__right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ruth-topbar__overlays {
+  display: flex;
+  background: var(--surface-1);
+  padding: 4px;
+  border-radius: 6px;
+  border: 1px solid var(--border-light);
+  gap: 4px;
+}
+
+.ruth-overlay-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--text-muted);
+  transition: all 0.2s;
+  user-select: none;
+}
+
+.ruth-overlay-btn input[type="radio"] {
+  display: none;
+}
+
+.ruth-overlay-btn:hover {
+  color: var(--text-main);
+  background: var(--surface-2);
+}
+
+.ruth-overlay-btn--active {
+  background: var(--surface-2);
+  color: var(--text-main);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+.ruth-color-flame { color: var(--color-flame); }
+.ruth-color-alert { color: var(--color-alert); }
+.ruth-color-safe { color: var(--color-safe); }
+
+.ruth-topbar__controls {
+  display: flex;
+  gap: 8px;
+}
+
+/* Trace / Directions button */
+.ruth-trace-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: var(--surface-1);
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.ruth-trace-btn:hover {
+  color: var(--text-main);
+  background: var(--surface-2);
+}
+
+.ruth-trace-btn--active {
+  background: var(--accent-blue);
+  color: var(--bg-color);
+  border-color: var(--accent-blue);
+}
+
+.ruth-trace-btn--active:hover {
+  background: #93bbfd;
+  color: var(--bg-color);
+}
+
+/* Trace mode banner */
+.ruth-trace-banner {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface-1);
+  border: 1px solid var(--accent-blue);
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 12px;
+  color: var(--text-main);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+  animation: slideDown 0.15s ease-out;
+}
+
+.ruth-trace-banner svg {
+  color: var(--accent-blue);
+  flex-shrink: 0;
+}
+
+.ruth-layout-toggle {
+  display: flex;
+  background: var(--surface-1);
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.ruth-layout-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.ruth-layout-btn:hover {
+  color: var(--text-main);
+  background: var(--surface-2);
+}
+
+.ruth-layout-btn--active {
+  background: var(--surface-3);
+  color: var(--accent-primary);
+}
+
+
+/* ────────────────────────────────────────────────────────────────────────
+   CANVAS & BACKGROUND
+   ──────────────────────────────────────────────────────────────────────── */
+.ruth-canvas {
+  flex: 1;
+  position: relative;
+  background: var(--bg-color);
+}
+
+.ruth-canvas__empty {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.ruth-canvas__empty-content {
+  text-align: center;
+  max-width: 360px;
+}
+
+.ruth-canvas__empty-logo {
+  width: 80px;
+  height: auto;
+  margin-bottom: 16px;
+  opacity: 0.9;
+}
+
+.ruth-canvas__empty-title {
+  margin: 0 0 4px 0;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: var(--text-main);
+}
+
+.ruth-canvas__empty-subtitle {
+  color: var(--text-muted);
+  margin: 0 0 24px 0;
+  font-size: 14px;
+}
+
+.ruth-canvas__empty-code {
+  display: block;
+  background: var(--surface-1);
+  padding: 14px 20px;
+  border-radius: 8px;
+  font-family: 'Geist Mono', 'SF Mono', monospace;
+  font-size: 14px;
+  border: 1px solid var(--border-light);
+  color: var(--accent-primary);
+  margin: 0 0 12px 0;
+  letter-spacing: 0.3px;
+}
+
+.ruth-canvas__empty-hint {
+  color: var(--text-muted);
+  font-size: 12px;
+  margin: 0;
+}
+
+.ruth-canvas__empty-loading {
+  display: flex;
+  justify-content: center;
+  padding-top: 8px;
+}
+
+.ruth-canvas__empty-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--surface-3);
+  border-top-color: var(--text-muted);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ────────────────────────────────────────────────────────────────────────
+   REACT FLOW CUSTOMIZATIONS
+   ──────────────────────────────────────────────────────────────────────── */
+.react-flow__node {
+  cursor: pointer !important;
+}
+
+.react-flow__minimap {
+  background: var(--bg-color);
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+
+.react-flow__controls {
+  background: var(--surface-1) !important;
+  border: 1px solid var(--border-light) !important;
+  border-radius: 6px !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5) !important;
+  fill: var(--text-muted) !important;
+}
+
+.react-flow__controls-button {
+  background: var(--surface-1) !important;
+  border-bottom: 1px solid var(--border-light) !important;
+}
+
+.react-flow__controls-button:hover {
+  background: var(--surface-2) !important;
+  fill: var(--text-main) !important;
+}
+
+.react-flow__controls-button svg {
+  fill: inherit;
+}
+
+/* ────────────────────────────────────────────────────────────────────────
+   NODES (General Sturdy Style)
+   ──────────────────────────────────────────────────────────────────────── */
+.ruth-node {
+  background: var(--surface-1);
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  padding: 12px;
+  min-width: 180px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: visible;
+  color: var(--text-main);
+}
+
+.ruth-node::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--accent, var(--surface-3));
+  transition: background 0.3s ease;
+}
+
+.ruth-node:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-focus);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.6);
+}
+
+.ruth-node--selected {
+  border-color: var(--accent-primary) !important;
+  box-shadow: 0 0 0 1px var(--accent-primary), 0 4px 20px rgba(0,0,0,0.6) !important;
+}
+
+.ruth-node__header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.ruth-node__icon {
+  width: 16px;
+  height: 16px;
+  color: var(--text-muted);
+}
+
+.ruth-node__label {
+  font-weight: 600;
+  font-size: 13px;
+  font-family: 'Geist Mono', 'SF Mono', monospace;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ruth-node__lang-badge {
+  font-size: 10px;
+  padding: 2px 4px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--bg-color);
+  font-weight: 700;
+}
+
+.ruth-node__meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.ruth-node__meta-sep {
+  color: var(--surface-3);
+}
+
+/* Landmark Pins (Google Maps POI markers) */
+.ruth-node__landmark-pin {
+  position: absolute;
+  top: -10px;
+  left: 12px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+  border: 1.5px solid var(--bg-color);
+  z-index: 10;
+}
+
+.ruth-node__landmark-pin svg {
+  transform: rotate(45deg);
+  color: white;
+}
+
+.ruth-node__role-tag {
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Node role variants — subtle glow for landmark nodes */
+.ruth-node--entrypoint {
+  border-color: rgba(34, 197, 94, 0.3);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.4), 0 0 0 1px rgba(34, 197, 94, 0.15);
+}
+
+.ruth-node--orchestrator {
+  border-color: rgba(167, 139, 250, 0.3);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.4), 0 0 0 1px rgba(167, 139, 250, 0.15);
+}
+
+.ruth-node--hub {
+  border-color: rgba(245, 158, 11, 0.3);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.4), 0 0 0 1px rgba(245, 158, 11, 0.15);
+}
+
+.ruth-node--island {
+  opacity: 0.5;
+  border-style: dashed;
+}
+
+.ruth-node__vuln-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: var(--color-flame);
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  border: 1px solid var(--bg-color);
+  z-index: 10;
+}
+
+.ruth-handle {
+  width: 8px !important;
+  height: 8px !important;
+  background: var(--border-light) !important;
+  border: 2px solid var(--bg-color) !important;
+  transition: all 0.2s;
+}
+
+.ruth-node:hover .ruth-handle {
+  background: var(--text-muted) !important;
+}
+
+/* Node: Async Badge */
+.ruth-node__async-badge {
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--accent-purple);
+  background: rgba(167, 139, 250, 0.12);
+  padding: 1px 5px;
+  border-radius: 3px;
+  margin-right: 4px;
+  flex-shrink: 0;
+}
+
+/* Node: Export Tag */
+.ruth-node__export-tag {
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--accent-green);
+  background: rgba(52, 211, 153, 0.12);
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+
+/* Node: Complexity Bar */
+.ruth-node__complexity-bar {
+  height: 3px;
+  background: var(--surface-2);
+  border-radius: 2px;
+  margin-top: 8px;
+  overflow: hidden;
+}
+
+.ruth-node__complexity-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.4s ease, background 0.3s ease;
+  min-width: 2px;
+}
+
+/* Node Variants */
+.ruth-node--directory {
+  background: rgba(24, 24, 27, 0.4);
+  border: 1px dashed var(--border-focus);
+  backdrop-filter: blur(4px);
+}
+.ruth-node--directory::before { display: none; }
+.ruth-node--directory .ruth-node__header {
+  margin-bottom: 0;
+  justify-content: center;
+}
+.ruth-node--directory .ruth-node__label {
+  color: var(--text-muted);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  flex: none;
+}
+
+/* ────────────────────────────────────────────────────────────────────────
+   EDGES
+   ──────────────────────────────────────────────────────────────────────── */
+.ruth-edge-import {
+  stroke: var(--edge-import);
+  stroke-dasharray: 4 4;
+}
+
+.ruth-edge-call {
+  stroke: var(--edge-call);
+}
+
+.ruth-edge-call--animated {
+  stroke-dasharray: 5;
+  animation: flow 20s linear infinite;
+}
+
+@keyframes flow {
+  from { stroke-dashoffset: 200; }
+  to { stroke-dashoffset: 0; }
+}
+
+.ruth-edge-label {
+  background: var(--bg-color);
+  color: var(--text-muted);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  border: 1px solid var(--border-light);
+  font-family: 'Geist Mono', monospace;
+}
+
+/* ────────────────────────────────────────────────────────────────────────
+   NODE HUD (Floating Detail Panel)
+   ──────────────────────────────────────────────────────────────────────── */
+.ruth-hud {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 300px;
+  background: var(--surface-1);
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.ruth-hud-header {
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 1px solid var(--border-light);
+  background: var(--surface-2);
+}
+
+.ruth-hud-kind {
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+  display: block;
+}
+
+.ruth-hud-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: 'Geist Mono', monospace;
+  word-break: break-all;
+}
+
+.ruth-hud-close {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+}
+.ruth-hud-close:hover {
+  background: var(--surface-3);
+  color: var(--text-main);
+}
+
+.ruth-hud-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+/* Landmark roles in HUD */
+.ruth-hud-roles {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ruth-hud-role {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid;
+  font-size: 12px;
+}
+
+.ruth-hud-role svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.ruth-hud-role-label {
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: block;
+}
+
+.ruth-hud-role-desc {
+  color: var(--text-muted);
+  font-size: 11px;
+  display: block;
+  margin-top: 2px;
+}
+
+.ruth-hud-path {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--text-muted);
+  font-family: 'Geist Mono', monospace;
+  word-break: break-all;
+  background: var(--bg-color);
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid var(--border-light);
+}
+
+.ruth-hud-icon {
+  flex-shrink: 0;
+}
+
+.ruth-hud-stats {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.ruth-hud-stat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-main);
+  background: var(--surface-2);
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.ruth-hud-subtitle {
+  margin: 0 0 8px 0;
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ruth-hud-metric {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+
+.ruth-hud-metric-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-muted);
+}
+
+.ruth-hud-metric-val {
+  font-family: 'Geist Mono', monospace;
+  font-weight: 600;
+}
+
+.ruth-hud-vulns {
+  border: 1px solid #ef444433;
+  background: #ef444411;
+  border-radius: 6px;
+  padding: 12px;
+}
+
+.ruth-hud-vuln-title {
+  color: var(--color-flame);
+}
+
+.ruth-hud-vuln-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 12px;
+}
+
+.ruth-hud-vuln-badge {
+  font-size: 9px;
+  padding: 2px 4px;
+  border-radius: 2px;
+  font-weight: bold;
+}
+.ruth-hud-vuln-badge-high, .ruth-hud-vuln-badge-critical { background: var(--color-flame); color: white; }
+.ruth-hud-vuln-badge-medium { background: var(--color-alert); color: black; }
+.ruth-hud-vuln-badge-low { background: #3b82f6; color: white; }
+
+/* ────────────────────────────────────────────────────────────────────────
+   CMDK PALETTE
+   ──────────────────────────────────────────────────────────────────────── */
+.ruth-cmd-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 15vh;
+}
+
+.ruth-cmd-dialog {
+  width: 100%;
+  max-width: 500px;
+  background: var(--surface-1);
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.6);
+  color: var(--text-main);
+  animation: slideDown 0.15s ease-out;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.ruth-cmd-input-wrapper {
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.ruth-cmd-search-icon {
+  color: var(--text-muted);
+}
+
+.ruth-cmd-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 16px 12px;
+  font-size: 14px;
+  color: var(--text-main);
+  outline: none;
+}
+
+.ruth-cmd-input::placeholder {
+  color: var(--text-muted);
+}
+
+.ruth-cmd-list {
+  max-height: 400px;
+  overflow-y: auto;
+  padding: 8px;
+}
+
+.ruth-cmd-empty {
+  padding: 24px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+[cmdk-group-heading] {
+  padding: 8px;
+  font-size: 10px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.ruth-cmd-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.ruth-cmd-item[data-selected="true"] {
+  background: var(--surface-2);
+}
+
+.ruth-cmd-item-icon {
+  color: var(--text-muted);
+}
+
+.ruth-cmd-item-label {
+  font-weight: 500;
+  font-family: 'Geist Mono', monospace;
+}
+
+.ruth-cmd-item-path {
+  color: var(--text-muted);
+  font-size: 11px;
+  margin-left: auto;
+  font-family: 'Geist Mono', monospace;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 200px;
+}
