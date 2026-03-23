@@ -29,7 +29,9 @@ pip install ruth-code
 ## Quick Start
 
 ```bash
-ruth serve ./your-project
+cd your-project
+pip install ruth-code
+ruth serve
 ```
 
 Your browser opens to `http://localhost:4150` with a live topology map of your codebase.
@@ -88,9 +90,9 @@ Full parsing support for **Python**, **TypeScript**, **JavaScript**, **Rust**, *
 Start the visualization dashboard.
 
 ```bash
-ruth serve /path/to/project
-ruth serve . --port 8080          # custom port
-ruth serve . --no-open            # don't auto-open browser
+ruth serve                        # analyze current directory
+ruth serve --port 8080            # custom port
+ruth serve --no-open              # don't auto-open browser
 ```
 
 If the port is taken, Ruth automatically finds the next available one.
@@ -100,9 +102,9 @@ If the port is taken, Ruth automatically finds the next available one.
 Export the dependency graph as JSON for CI pipelines or custom tooling.
 
 ```bash
-ruth analyze /path/to/project -o graph.json
-ruth analyze . -g function         # function-level granularity
-ruth analyze . -g class            # class-level granularity
+ruth analyze -o graph.json         # export current directory
+ruth analyze -g function           # function-level granularity
+ruth analyze -g class              # class-level granularity
 ```
 
 ### `ruth scan`
@@ -110,7 +112,7 @@ ruth analyze . -g class            # class-level granularity
 Quick project scan — file counts, line counts, and language breakdown without building the full graph.
 
 ```bash
-ruth scan /path/to/project
+ruth scan
 ```
 
 <br />
@@ -176,7 +178,7 @@ npm install
 npm run dev
 ```
 
-The dev server proxies API requests to the Python backend. Run `ruth serve .` in one terminal and `npm run dev` in another for hot-reload frontend development.
+The dev server proxies API requests to the Python backend. Run `ruth serve` in one terminal and `npm run dev` in another for hot-reload frontend development.
 
 <br />
 
