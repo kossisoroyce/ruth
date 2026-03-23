@@ -7,9 +7,9 @@ import asyncio
 from pathlib import Path
 from typing import Any
 
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Query
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse, HTMLResponse
+from fastapi.responses import FileResponse, HTMLResponse, PlainTextResponse
 
 
 # Path to the built frontend assets
@@ -134,6 +134,21 @@ def create_app(project_path: str = ".") -> FastAPI:
     @app.get("/api/graph")
     async def get_graph_api():
         return get_graph()
+
+    @app.get("/api/file")
+    async def get_file(path: str = Query(..., description="Relative file path within the project")):
+        """Return the contents of a source file for code preview."""
+        # Resolve and validate the path stays within the project root
+        file_path = (project_root / path).resolve()
+        if not file_path.is_relative_to(project_root):
+            return PlainTextResponse("Access denied", status_code=403)
+        if not file_path.is_file():
+            return PlainTextResponse("File not found", status_code=404)
+        try:
+            content = file_path.read_text(encoding="utf-8", errors="replace")
+            return PlainTextResponse(content)
+        except Exception:
+            return PlainTextResponse("Could not read file", status_code=500)
 
     # Serve the built React frontend
     if FRONTEND_DIR.exists():

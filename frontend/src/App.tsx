@@ -4,6 +4,7 @@ import { TopBar } from './components/TopBar';
 import { GraphCanvas } from './components/GraphCanvas';
 import { CommandPalette } from './components/CommandPalette';
 import { NodeHud } from './components/NodeHud';
+import { CodePreview } from './components/CodePreview';
 import { useWebSocket } from './hooks/useWebSocket';
 
 function AppInner() {
@@ -17,6 +18,7 @@ function AppInner() {
         <NodeHud />
       </div>
       <CommandPalette />
+      <CodePreview />
     </div>
   );
 }

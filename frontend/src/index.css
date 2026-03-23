@@ -1060,3 +1060,176 @@ body {
   white-space: nowrap;
   max-width: 200px;
 }
+
+/* ────────────────────────────────────────────────────────────────────────
+   HUD — VIEW CODE BUTTON
+   ──────────────────────────────────────────────────────────────────────── */
+.ruth-hud-preview-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--surface-2);
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  color: var(--accent-blue);
+  font-size: 12px;
+  font-weight: 500;
+  font-family: 'Geist Mono', monospace;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.ruth-hud-preview-btn:hover {
+  background: var(--surface-3, rgba(255,255,255,0.08));
+  border-color: var(--accent-blue);
+}
+
+/* ────────────────────────────────────────────────────────────────────────
+   CODE PREVIEW PANEL
+   ──────────────────────────────────────────────────────────────────────── */
+.ruth-preview-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(6px);
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  animation: fadeIn 0.15s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.ruth-preview {
+  width: 100%;
+  max-width: 860px;
+  max-height: 80vh;
+  background: var(--surface-1);
+  border: 1px solid var(--border-light);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  animation: slideDown 0.2s ease-out;
+}
+
+.ruth-preview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-light);
+  background: var(--surface-2);
+  flex-shrink: 0;
+}
+
+.ruth-preview-file {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.ruth-preview-filename {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-main);
+  font-family: 'Geist Mono', monospace;
+}
+
+.ruth-preview-path {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-family: 'Geist Mono', monospace;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ruth-preview-actions {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.ruth-preview-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.ruth-preview-btn:hover {
+  background: var(--surface-3, rgba(255,255,255,0.08));
+  color: var(--text-main);
+}
+
+.ruth-preview-code {
+  overflow: auto;
+  flex: 1;
+}
+
+.ruth-preview-code pre {
+  margin: 0;
+  padding: 0;
+  font-family: 'Geist Mono', monospace;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.ruth-preview-code code {
+  display: block;
+}
+
+.ruth-preview-line {
+  display: flex;
+  padding: 0 16px 0 0;
+}
+
+.ruth-preview-line:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.ruth-preview-linenum {
+  display: inline-block;
+  width: 52px;
+  padding: 0 12px;
+  text-align: right;
+  color: var(--text-muted);
+  opacity: 0.4;
+  user-select: none;
+  flex-shrink: 0;
+  font-size: 12px;
+}
+
+.ruth-preview-linetext {
+  white-space: pre;
+  color: var(--text-main);
+  flex: 1;
+  min-width: 0;
+}
+
+.ruth-preview-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 60px 20px;
+  color: var(--text-muted);
+  font-size: 13px;
+}

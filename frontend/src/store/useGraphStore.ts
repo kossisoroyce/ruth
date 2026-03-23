@@ -19,6 +19,11 @@ interface GraphState {
   layoutDirection: LayoutDirection;
   connected: boolean;
 
+  // ── Code preview ──
+  previewNodeId: string | null;
+  previewCode: string | null;
+  previewLoading: boolean;
+
   // ── Path tracing (directions) ──
   traceMode: boolean;
   traceFrom: string | null;
@@ -46,6 +51,8 @@ interface GraphState {
   toggleTraceMode: () => void;
   setTraceNode: (id: string) => void;
   clearTrace: () => void;
+  openPreview: (nodeId: string, filePath: string) => void;
+  closePreview: () => void;
 }
 
 export const useGraphStore = create<GraphState>((set, get) => ({
@@ -61,6 +68,11 @@ export const useGraphStore = create<GraphState>((set, get) => ({
   searchQuery: '',
   layoutDirection: 'TB',
   connected: false,
+
+  // ── Code preview ──
+  previewNodeId: null,
+  previewCode: null,
+  previewLoading: false,
 
   // ── Path tracing ──
   traceMode: false,
@@ -167,5 +179,22 @@ export const useGraphStore = create<GraphState>((set, get) => ({
       tracePath: [],
       traceEdges: [],
     });
+  },
+
+  // ── Code preview ──
+  openPreview: async (nodeId, filePath) => {
+    set({ previewNodeId: nodeId, previewCode: null, previewLoading: true });
+    try {
+      const res = await fetch(`/api/file?path=${encodeURIComponent(filePath)}`);
+      if (!res.ok) throw new Error(await res.text());
+      const code = await res.text();
+      set({ previewCode: code, previewLoading: false });
+    } catch {
+      set({ previewCode: '// Could not load file', previewLoading: false });
+    }
+  },
+
+  closePreview: () => {
+    set({ previewNodeId: null, previewCode: null, previewLoading: false });
   },
 }));

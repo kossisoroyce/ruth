@@ -3,13 +3,14 @@ import type { ModuleNodeData, ClassNodeData, FunctionNodeData } from '../types';
 import { ROLE_CONFIG } from '../utils/landmarks';
 import {
   X, ShieldAlert, Cpu, Layers, Link, GitMerge, FileCode, CheckCircle, Flame,
-  ArrowDownRight, ArrowUpRight, MapPin,
+  ArrowDownRight, ArrowUpRight, MapPin, Eye,
 } from 'lucide-react';
 
 export function NodeHud() {
   const selectedId = useGraphStore((s) => s.selectedNodeId);
   const nodes = useGraphStore((s) => s.nodes);
   const selectNode = useGraphStore((s) => s.selectNode);
+  const openPreview = useGraphStore((s) => s.openPreview);
 
   if (!selectedId) return null;
 
@@ -37,6 +38,14 @@ export function NodeHud() {
           <Link size={14} className="ruth-hud-icon" />
           {data.filePath}
         </div>
+
+        <button
+          className="ruth-hud-preview-btn"
+          onClick={() => openPreview(selectedId, data.filePath)}
+        >
+          <Eye size={14} />
+          View Code
+        </button>
 
         {/* Landmark roles */}
         {roles.length > 0 && (
