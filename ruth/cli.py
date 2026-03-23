@@ -63,11 +63,31 @@ def serve(path: str, port: int, host: str, no_open: bool):
 
     app = create_app(path)
 
+    # Find a free port — auto-increment if the requested one is taken
+    import socket
+    actual_port = port
+    for attempt in range(20):
+        try:
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+                s.bind((host, actual_port))
+            break
+        except OSError:
+            if attempt == 0:
+                console.print(f"  [yellow]⚠[/yellow]  Port {actual_port} in use, finding next available...")
+            actual_port += 1
+    else:
+        console.print(f"  [red]✗[/red]  No available port found in range {port}–{actual_port}")
+        raise SystemExit(1)
+
+    if actual_port != port:
+        console.print(f"  [dim]Dashboard:[/dim]  [link=http://{host}:{actual_port}]http://{host}:{actual_port}[/link]")
+        console.print()
+
     if not no_open:
-        webbrowser.open(f"http://{host}:{port}")
+        webbrowser.open(f"http://{host}:{actual_port}")
 
     import uvicorn
-    uvicorn.run(app, host=host, port=port, log_level="warning")
+    uvicorn.run(app, host=host, port=actual_port, log_level="warning")
 
 
 @cli.command()

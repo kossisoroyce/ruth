@@ -2,7 +2,8 @@ import { useEffect, useRef, useCallback } from 'react';
 import { useGraphStore } from '../store/useGraphStore';
 import type { WsMessage, FullGraphPayload, CodeNode, CodeEdge } from '../types';
 
-const DEFAULT_WS_URL = 'ws://localhost:4150/ws';
+// Derive WebSocket URL from current page — works on any port
+const DEFAULT_WS_URL = `${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.host}/ws`;
 const RECONNECT_BASE_MS = 1000;
 const RECONNECT_MAX_MS = 30000;
 
