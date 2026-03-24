@@ -9,11 +9,11 @@
 <p align="center">
   <a href="https://pypi.org/project/ruth-code/"><img src="https://img.shields.io/pypi/v/ruth-code?color=%232dd4bf&label=PyPI" alt="PyPI" /></a>
   <a href="https://pypi.org/project/ruth-code/"><img src="https://img.shields.io/pypi/pyversions/ruth-code?color=%232dd4bf" alt="Python" /></a>
-  <a href="https://github.com/kossisoroyce/ruth/blob/main/LICENSE"><img src="https://img.shields.io/github/license/kossisoroyce/ruth?color=%232dd4bf" alt="License" /></a>
+  <a href="https://github.com/kossisoroyce/ruth/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-proprietary-2dd4bf" alt="License" /></a>
 </p>
 
 <p align="center">
-  <img src=".github/demo.png" alt="Ruth — codebase topology visualizer" width="100%" />
+  <img src="https://raw.githubusercontent.com/kossisoroyce/ruth/main/.github/demo.png" alt="Ruth — codebase topology visualizer" width="100%" />
 </p>
 
 ---
@@ -189,4 +189,6 @@ The dev server proxies API requests to the Python backend. Run `ruth serve` in o
 
 ## License
 
-MIT — [Electric Sheep Africa](https://electricsheep.africa)
+Proprietary — [Electric Sheep Africa](https://electricsheep.africa)
+
+Personal, non-commercial use only. See [LICENSE](LICENSE) for details.
